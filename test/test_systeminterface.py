@@ -25,20 +25,20 @@ class SystemInterfaceTestCase(unittest.TestCase):
         si.writeParameters(self.jsonOut)
         self.assertEqual(si.getStatus(), json.dumps({"status": 3}))
 
-    def test_write_failures(self):
-        # Fail when trying to write while updating or requesting
+    def test_write_fails_when_updating(self):
         ep.setWriteStatus(ep.EWriteStatus.UPDATING)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.UPDATING)
         si.writeParameters(self.jsonOut)
-        self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
-        # Fail when json malformed
+    def test_write_fails_when_malformed(self):
         ep.setWriteStatus(ep.EWriteStatus.NONE)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.NONE)
         si.writeParameters("}{")
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
-        # Fail when element is missing
+    def test_write_fails_when_element_missing(self):
         ep.setWriteStatus(ep.EWriteStatus.NONE)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.NONE)
         self.jsonOut = json.dumps({
@@ -48,8 +48,9 @@ class SystemInterfaceTestCase(unittest.TestCase):
         })
         si.writeParameters(self.jsonOut)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
-        # Fail when node_id not int
+    def test_write_fails_when_node_id_not_int(self):
         ep.setWriteStatus(ep.EWriteStatus.NONE)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.NONE)
         self.jsonOut = json.dumps({
@@ -60,8 +61,9 @@ class SystemInterfaceTestCase(unittest.TestCase):
         })
         si.writeParameters(self.jsonOut)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
-        # Fail when system_name not str
+    def test_write_fails_when_system_name_not_str(self):
         ep.setWriteStatus(ep.EWriteStatus.NONE)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.NONE)
         self.jsonOut = json.dumps({
@@ -72,8 +74,9 @@ class SystemInterfaceTestCase(unittest.TestCase):
         })
         si.writeParameters(self.jsonOut)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
-        # Fail when system_time not int
+    def test_write_fails_when_system_time_not_int(self):
         ep.setWriteStatus(ep.EWriteStatus.NONE)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.NONE)
         self.jsonOut = json.dumps({
@@ -84,8 +87,9 @@ class SystemInterfaceTestCase(unittest.TestCase):
         })
         si.writeParameters(self.jsonOut)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
-        # Fail when active not bool
+    def test_write_fails_when_active_not_bool(self):
         ep.setWriteStatus(ep.EWriteStatus.NONE)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.NONE)
         self.jsonOut = json.dumps({
@@ -96,8 +100,9 @@ class SystemInterfaceTestCase(unittest.TestCase):
         })
         si.writeParameters(self.jsonOut)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
-        # Fail when node_id out of range
+    def test_write_fails_when_node_id_out_of_range(self):
         ep.setWriteStatus(ep.EWriteStatus.NONE)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.NONE)
         self.jsonOut = json.dumps({
@@ -108,8 +113,9 @@ class SystemInterfaceTestCase(unittest.TestCase):
         })
         si.writeParameters(self.jsonOut)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
-        # Fail when system_time out of range
+    def test_write_fails_when_system_time_out_out_range(self):
         ep.setWriteStatus(ep.EWriteStatus.NONE)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.NONE)
         self.jsonOut = json.dumps({
@@ -120,6 +126,7 @@ class SystemInterfaceTestCase(unittest.TestCase):
         })
         si.writeParameters(self.jsonOut)
         self.assertEqual(ep.getWriteStatus(), ep.EWriteStatus.FAILED)
+        self.assertEqual(si.getStatus(), json.dumps({"status": 4}))
 
 
 if __name__ == '__main__':

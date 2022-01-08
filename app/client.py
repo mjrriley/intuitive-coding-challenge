@@ -41,6 +41,7 @@ class Client:
         self.statusQueue = asyncio.Queue()
         self.writeQueue = asyncio.Queue()
 
+        print("Starting Client")
         try:
             reader, writer = await asyncio.open_connection(
                     self.address, self.port)
@@ -48,6 +49,7 @@ class Client:
             print(e)
             return
 
+        print("Client Running...")
         await asyncio.gather(
             self.handleStatusRequestQueue(),
             self.handleWriteQueue(),

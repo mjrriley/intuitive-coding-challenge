@@ -35,11 +35,13 @@ class Server:
                 await asyncio.sleep(0.5)
 
     async def run_server(self):
+        print("Starting Server")
         server = await asyncio.start_server(
                 self.handle_client,
                 self.address,
                 self.port
         )
+        print("Server Running...")
         async with server:
             await server.serve_forever()
 
