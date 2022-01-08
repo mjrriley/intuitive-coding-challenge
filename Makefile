@@ -14,5 +14,7 @@ style:
 clean:
 	@rm -rf build
 	@rm -rf *.egg-info
+	@rm -rf app/__pycache__
+	@rm -rf test/__pycache__
 
 .PHONY: init test style clean

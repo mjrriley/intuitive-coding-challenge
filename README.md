@@ -28,6 +28,3 @@ To verify that status request were responsive and not blocking,
 I created client.py and server.py to communication with each other.
 By running server.py first and then client.py, you will see the
 server will write parameters without block status requests.
-
-For convenience, test\_async.sh was provided to run the scripts
-noted above
